@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header"><strong>🔧 PProxy Terminal</strong></div>
+            <div class="card-body">
+                <div class="terminal" id="terminal">
+                    <div>> Добро пожаловать в PProxy терминал</div>
+                    <div>> Функционал терминала находится в разработке</div>
+                    <div>> Для начала работы введите команду...</div>
+                    <div id="output"></div>
+                    <div class="input-line">
+                        <span>> </span>
+                        <input type="text" id="command-input" style="background: transparent; border: none; color: #00ff00; outline: none; width: 80%;" autofocus>
+                    </div>
+                </div>
+                
+                <div class="mt-3">
+                    <button class="btn btn-secondary" onclick="clearTerminal()">Очистить</button>
+                    <button class="btn btn-info" onclick="addSampleOutput()">Тестовый вывод</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const terminal = document.getElementById('terminal');
+    const commandInput = document.getElementById('command-input');
+    const output = document.getElementById('output');
+
+    commandInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            const command = this.value;
+            if (command.trim()) {
+                addOutput(`> ${command}`);
+                addOutput('Команда не распознана или функционал в разработке');
+                this.value = '';
+                scrollToBottom();
+            }
+        }
+    });
+
+    function addOutput(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        output.appendChild(div);
+    }
+
+    function clearTerminal() {
+        output.innerHTML = '';
+    }
+
+    function addSampleOutput() {
+        addOutput('> Тестовый вывод');
+        addOutput('Время: ' + new Date().toLocaleTimeString());
+        addOutput('Статус: Система работает нормально');
+        scrollToBottom();
+    }
+
+    function scrollToBottom() {
+        terminal.scrollTop = terminal.scrollHeight;
+    }
+
+    // Авто-фокус на поле ввода
+    commandInput.focus();
+</script>
+{% endblock %}

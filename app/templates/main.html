@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+<p class="text-muted">Обновлено: {{ timestamp }}</p>
+
+{% if message %}
+<div class="alert alert-{{ message_type }}">{{ message }}</div>
+{% endif %}
+
+<div class="row">
+    <!-- Основная информация -->
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header"><strong>Основное</strong></div>
+            <div class="card-body">
+                <p><strong>ОС:</strong> {{ info.os }} {{ info.os_release }} ({{ info.os_version }})</p>
+                <p><strong>Архитектура:</strong> {{ info.architecture }}</p>
+                <p><strong>Имя хоста:</strong> {{ info.hostname }}</p>
+                <p><strong>Локальный IP:</strong> {{ info.local_ip }}</p>
+                <p><strong>Python:</strong> {{ info.python_version }}</p>
+                <p><strong>Доступ в интернет:</strong>
+                    <span class="{% if info.internet %}status-online{% else %}status-offline{% endif %}">
+                        {% if info.internet %}Да ✅{% else %}Нет ❌{% endif %}
+                    </span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ресурсы -->
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header"><strong>CPU</strong></div>
+            <div class="card-body">
+                <p><strong>Ядра (физические / логические):</strong> {{ info.cpu_count }} / {{ info.cpu_count_logical }}</p>
+                <p><strong>Макс. частота CPU:</strong> {{ info.cpu_freq }} MHz</p>
+                <p><strong>Загрузка CPU:</strong> {{ info.cpu_percent }}%</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header"><strong>Память (RAM)</strong></div>
+            <div class="card-body">
+                <p><strong>Всего:</strong> {{ info.ram_total_gb }} GB</p>
+                <p><strong>Используется:</strong> {{ info.ram_used_gb }} GB ({{ info.ram_percent }}%)</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header"><strong>Диск (/)</strong></div>
+            <div class="card-body">
+                <p><strong>Всего:</strong> {{ info.disk_total_gb }} GB</p>
+                <p><strong>Используется:</strong> {{ info.disk_used_gb }} GB ({{ info.disk_percent }}%)</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Авто-обновление информации каждые 10 секунд
+    setTimeout(function() {
+        window.location.reload();
+    }, 10000);
+</script>
+{% endblock %}

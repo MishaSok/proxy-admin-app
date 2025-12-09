@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if message %}
+<div class="alert alert-{{ message_type }}">{{ message }}</div>
+{% endif %}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header"><strong>⚙️ Управление прокси Linux</strong></div>
+            <div class="card-body">
+                <div class="form-section">
+                    <form action="/set-proxy" method="post">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="proxy_server" class="form-label">Адрес прокси-сервера</label>
+                                <input type="text" class="form-control" id="proxy_server" name="proxy_server" 
+                                       value="{{ current_server }}" placeholder="proxy.example.com:8080">
+                                <div class="form-text">Формат: hostname:port или ip:port</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="proxy_bypass" class="form-label">Исключения</label>
+                                <textarea class="form-control" id="proxy_bypass" name="proxy_bypass" 
+                                          rows="2" placeholder="localhost;127.0.0.1;192.168.*">{{ current_bypass }}</textarea>
+                                <div class="form-text">Адреса через точку с запятой, для которых прокси не используется</div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="password" class="form-label">Пароль для изменения</label>
+                                <input type="password" class="form-control" id="password" name="password" required>
+                            </div>
+                        </div>
+
+                        <div class="btn-group" role="group">
+                            <button type="submit" name="action" value="enable" class="btn btn-success">
+                                ✅ Включить прокси
+                            </button>
+                            <button type="submit" name="action" value="disable" class="btn btn-danger">
+                                ❌ Отключить прокси
+                            </button>
+                            <button type="submit" name="action" value="update" class="btn btn-primary">
+                                🔄 Обновить настройки
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Текущие настройки -->
+                <div class="proxy-section">
+                    <h5>🌐 Текущие настройки прокси</h5>
+                    {{ proxy_html|safe }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
