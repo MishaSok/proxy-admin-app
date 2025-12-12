@@ -28,7 +28,7 @@
 <body>
     <div class="container mt-4">
         <div class="user-info d-flex justify-content-between align-items-center">
-            <h1 class="mb-0">🖥️ System Monitor</h1>
+            <h1 class="mb-0">🖥️ Proxy Admin</h1>
             <div class="text-end">
                 <strong>Пользователь:</strong> {{ username }}<br>
                 <a href="/logout" class="btn btn-sm btn-outline-danger mt-1">Выйти</a>
@@ -50,6 +50,19 @@
         {% block content %}{% endblock %}
     </div>
 
+    <footer class="mt-5 py-3" style="background: #f1f3f5; border-top: 1px solid #dee2e6;">
+        <div class="container d-flex flex-wrap justify-content-between align-items-center">
+            <div class="text-muted small">
+                <div><strong>Proxy Admin</strong> · {{ username }}</div>
+                <div>Управление прокси и мониторинг системы</div>
+            </div>
+            <div class="text-muted small text-end">
+                <div>Статус: <span class="text-success">online</span></div>
+                <div>Время сервера: {{ timestamp if timestamp is defined else '' }}</div>
+            </div>
+        </div>
+    </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Автоматическое скрытие сообщений через 5 секунд
@@ -60,5 +73,6 @@
             });
         }, 5000);
     </script>
+    {% block scripts %}{% endblock %}
 </body>
 </html>
